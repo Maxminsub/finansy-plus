@@ -1,0 +1,15 @@
+{
+  "name": "Финансы+ — личный финансовый помощник",
+  "short_name": "Финансы+",
+  "description": "Доходы, расходы, цели и финансовая аналитика",
+  "lang": "ru",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f7f5",
+  "theme_color": "#0d211d",
+  "icons": [
+    {"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}

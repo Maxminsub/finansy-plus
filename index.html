@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" id="themeColorMeta" content="#f5f7f5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Финансы+">
+  <meta name="description" content="Личный финансовый помощник: доходы, расходы и цели.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Финансы+ — личный финансовый помощник</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">✳</div><div><strong>Финансы<span>+</span></strong><small>Твой денежный порядок</small></div></div>
+      <button class="icon-btn" id="settingsBtn" aria-label="Настройки">⚙</button>
+    </header>
+
+    <main>
+      <section class="page active" id="page-home">
+        <div class="eyebrow">ТВОЯ ФИНАНСОВАЯ КАРТИНА</div>
+        <div class="hero-card">
+          <div class="hero-top"><span>Общий баланс</span><span class="live-dot">● Мой месяц</span></div>
+          <div class="balance" id="balance">0 ₽</div>
+          <div class="balance-foot"><span class="trend">↗</span><span id="balanceHint">Начни с первой операции</span></div>
+          <div class="hero-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="metric-grid">
+          <article class="metric"><div class="metric-icon income-icon">↙</div><div class="metric-label">Доходы за месяц</div><div class="metric-value" id="incomeTotal">0 ₽</div><div class="metric-note">деньги пришли</div></article>
+          <article class="metric"><div class="metric-icon expense-icon">↗</div><div class="metric-label">Расходы за месяц</div><div class="metric-value" id="expenseTotal">0 ₽</div><div class="metric-note">деньги ушли</div></article>
+        </div>
+        <div class="section-heading"><div><h2>Цели на будущее</h2><p>Маленькие шаги — большой результат</p></div><button class="text-btn" data-page="goals">Все →</button></div>
+        <div id="homeGoals" class="goal-stack"></div>
+        <div class="section-heading"><div><h2>Последние операции</h2><p>Держи руку на пульсе</p></div><button class="text-btn" data-page="transactions">Все →</button></div>
+        <div id="recentTransactions" class="transaction-list"></div>
+        <button class="primary-btn wide" id="quickAdd">＋ Добавить операцию</button>
+      </section>
+
+      <section class="page" id="page-transactions">
+        <div class="page-title-row"><div><div class="eyebrow">УЧЁТ ДЕНЕГ</div><h1>Операции</h1><p>Всё, что приходит и уходит</p></div><button class="round-add" id="addTransaction">＋</button></div>
+        <div class="segmented"><button class="selected" data-filter="all">Все</button><button data-filter="income">Доходы</button><button data-filter="expense">Расходы</button></div>
+        <div id="allTransactions" class="transaction-list"></div>
+        <div class="empty-note" id="transactionEmpty" hidden>Пока нет операций. Добавь первую — и начнём считать.</div>
+      </section>
+
+      <section class="page" id="page-goals">
+        <div class="eyebrow">ТВОИ ПЛАНЫ</div><h1>Цели</h1><p class="page-subtitle">Дай своим деньгам направление.</p>
+        <div class="goal-summary"><span>Общая сумма целей</span><strong id="goalsTotal">0 ₽</strong><div class="progress-track"><span id="overallGoalProgress"></span></div><small id="goalsCaption">Создай первую цель</small></div>
+        <div id="allGoals" class="goal-stack"></div>
+        <button class="primary-btn wide" id="addGoal">＋ Новая цель</button>
+      </section>
+
+      <section class="page" id="page-analytics">
+        <div class="eyebrow">БЕЗ СЛОЖНЫХ ТАБЛИЦ</div><h1>Аналитика</h1><p class="page-subtitle">Понимай привычки, управляй деньгами.</p>
+        <div class="analytics-card"><div class="card-title-row"><div><h3>Денежный поток</h3><p>За текущий месяц</p></div><span class="pill">МЕСЯЦ</span></div><div class="flow-bars" id="flowBars"></div><div class="chart-legend"><span><i class="legend-dot green"></i> Доходы</span><span><i class="legend-dot coral"></i> Расходы</span></div></div>
+        <div class="analytics-card"><h3>Куда уходят деньги</h3><p>Расходы по категориям</p><div id="categoryBreakdown" class="category-breakdown"></div></div>
+        <div class="tip-card"><div class="tip-icon">✦</div><div><strong>Финансовая подсказка</strong><p id="financeTip">Записывай операции регулярно — так ты увидишь, что можно улучшить.</p></div></div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="eyebrow">ПОД ТВОИ ПРАВИЛА</div><h1>Настройки</h1><p class="page-subtitle">Настрой помощника под себя.</p>
+        <div class="settings-card"><h3>Внешний вид</h3><p>Выбери удобный фон приложения.</p><div class="theme-options" role="group" aria-label="Тема оформления"><button type="button" class="theme-option selected" data-theme-choice="light"><span class="theme-swatch light-swatch"></span><span>Белая</span><span class="theme-check">✓</span></button><button type="button" class="theme-option" data-theme-choice="dark"><span class="theme-swatch dark-swatch"></span><span>Тёмная</span><span class="theme-check">✓</span></button></div></div><div class="settings-card"><label for="currency">Валюта</label><select id="currency"><option value="₽">Российский рубль (₽)</option><option value="€">Евро (€)</option><option value="$">Доллар ($)</option><option value="₸">Тенге (₸)</option></select><label for="monthlySalary">Планируемая зарплата в месяц</label><input id="monthlySalary" type="number" min="0" placeholder="Например, 120000"><button class="primary-btn wide" id="saveSettings">Сохранить настройки</button></div>
+        <div class="settings-card"><h3>Твои данные</h3><p>Данные хранятся локально в этом браузере на твоём устройстве. Они не отправляются на сервер.</p><button class="secondary-btn wide" id="exportData">Экспортировать мои данные</button><button class="danger-btn wide" id="resetData">Удалить все данные</button></div>
+        <div class="privacy-note">🔒 Это личный финансовый блокнот, а не банковское приложение. Не добавляй пароли или данные банковских карт.</div>
+      </section>
+    </main>
+
+    <nav class="tabbar" aria-label="Основная навигация">
+      <button class="tab active" data-page="home"><span>⌂</span><small>Главная</small></button>
+      <button class="tab" data-page="transactions"><span>↕</span><small>Операции</small></button>
+      <button class="tab" data-page="goals"><span>◎</span><small>Цели</small></button>
+      <button class="tab" data-page="analytics"><span>▥</span><small>Аналитика</small></button>
+    </nav>
+  </div>
+
+  <dialog id="transactionDialog" class="sheet-dialog">
+    <form id="transactionForm" method="dialog">
+      <div class="sheet-handle"></div><div class="modal-heading"><div><div class="eyebrow">НОВАЯ ЗАПИСЬ</div><h2 id="transactionModalTitle">Добавить операцию</h2></div><button type="button" class="close-btn" data-close="transactionDialog">×</button></div>
+      <div class="segmented type-switch"><button type="button" class="selected" data-type="expense">Расход</button><button type="button" data-type="income">Доход</button></div>
+      <input type="hidden" id="transactionType" value="expense">
+      <label for="transactionAmount">Сумма</label><div class="amount-input"><input id="transactionAmount" type="number" min="1" step="0.01" placeholder="0" required><span id="amountCurrency">₽</span></div>
+      <label for="transactionTitle">Название</label><input id="transactionTitle" type="text" placeholder="Например, продукты или зарплата" required maxlength="70">
+      <label for="transactionCategory">Категория</label><select id="transactionCategory"><option>Продукты</option><option>Транспорт</option><option>Дом и счета</option><option>Кафе и отдых</option><option>Покупки</option><option>Здоровье</option><option>Образование</option><option>Зарплата</option><option>Фриланс</option><option>Подарок</option><option>Другое</option></select>
+      <label for="transactionDate">Дата</label><input id="transactionDate" type="date" required>
+      <button class="primary-btn wide" type="submit">Сохранить операцию</button>
+    </form>
+  </dialog>
+
+  <dialog id="goalDialog" class="sheet-dialog">
+    <form id="goalForm" method="dialog">
+      <div class="sheet-handle"></div><div class="modal-heading"><div><div class="eyebrow">ШАГ К МЕЧТЕ</div><h2>Новая цель</h2></div><button type="button" class="close-btn" data-close="goalDialog">×</button></div>
+      <label for="goalName">На что копим?</label><input id="goalName" type="text" placeholder="Например, путешествие" maxlength="60" required>
+      <label for="goalTarget">Сколько нужно?</label><div class="amount-input"><input id="goalTarget" type="number" min="1" placeholder="100000" required><span id="goalCurrency">₽</span></div>
+      <label for="goalSaved">Уже накоплено</label><input id="goalSaved" type="number" min="0" value="0" required>
+      <label for="goalEmoji">Иконка</label><select id="goalEmoji"><option value="✈️">✈️ Путешествие</option><option value="🚗">🚗 Машина</option><option value="🏠">🏠 Квартира</option><option value="💻">💻 Техника</option><option value="🛟">🧘 Подушка безопасности</option><option value="✨">✨ Другое</option></select>
+      <button class="primary-btn wide" type="submit">Создать цель</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
